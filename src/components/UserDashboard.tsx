@@ -1,18 +1,16 @@
-import Header from "./Header";
 // import RatingBoard from "../components/rating/RatingBoard";
 // import RoadmapView from "../components/roadmap/RoadmapView";
 // import { useRoadmap } from "../context/RoadmapContext";
 
 export default function UserDashboard() {
-  // const { generatedRoadmap } = useRoadmap();
-  // const [activeTab, setActiveTab] = useState(
-  //   generatedRoadmap.length > 0 ? "roadmap" : "rate"
-  // );
+	// const { generatedRoadmap } = useRoadmap();
+	// const [activeTab, setActiveTab] = useState(
+	//   generatedRoadmap.length > 0 ? "roadmap" : "rate"
+	// );
 
-  return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      {/* <div className="container mx-auto py-8 px-4">
+	return (
+		<div className="min-h-screen bg-background">
+			{/* <div className="container mx-auto py-8 px-4">
         <h1 className="text-3xl font-bold mb-6">Developer Roadmap</h1>
 
         <Tabs
@@ -39,6 +37,6 @@ export default function UserDashboard() {
           </TabsContent>
         </Tabs>
       </div> */}
-    </div>
-  );
+		</div>
+	);
 }

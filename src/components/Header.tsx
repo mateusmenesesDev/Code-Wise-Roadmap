@@ -1,11 +1,14 @@
-"use client";
+'use client';
 
-import { Button } from "~/components/ui/button";
-import { SEO } from "~/constants";
-import { useAuth } from "~/hooks/useAuth";
+import { UserButton } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
+import { Button } from '~/components/ui/button';
+import { SEO } from '~/constants';
+import { useAuth } from '~/hooks/useAuth';
 
 export default function Header() {
-	const { currentUser, logout } = useAuth();
+	const { user } = useAuth();
+	const router = useRouter();
 
 	return (
 		<header className="border-b bg-card px-6 py-4">
@@ -17,9 +20,11 @@ export default function Header() {
 				</div>
 
 				<div className="flex items-center gap-4">
-					{currentUser && (
-						<Button variant="outline" onClick={logout}>
-							Logout
+					{user ? (
+						<UserButton />
+					) : (
+						<Button variant="outline" onClick={() => router.push('/login')}>
+							Login
 						</Button>
 					)}
 				</div>
