@@ -5,22 +5,55 @@
     "clientKind": "git",
     "useIgnoreFile": true
   },
-  "files": { "ignoreUnknown": false, "ignore": [] },
-  "formatter": { "enabled": true },
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": [
+      "node_modules",
+      "dist",
+      "build",
+      "public",
+      "scripts",
+      "src/generated",
+      "src/migrations",
+      "src/prisma",
+      "public/*",
+      ".next/*",
+      "*.css"
+    ]
+  },
+  "formatter": { "enabled": true, "indentStyle": "tab", "indentWidth": 2 },
   "organizeImports": { "enabled": true },
   "linter": {
     "enabled": true,
     "rules": {
+      "a11y": {
+        "all": true
+      },
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error"
+      },
+      "style": {
+        "noUnusedTemplateLiteral": "error"
+      },
       "nursery": {
         "useSortedClasses": {
-          "level": "warn",
-          "fix": "safe",
+          "level": "error",
+          "fix": "unsafe",
           "options": {
             "functions": ["clsx", "cva", "cn"]
           }
         }
       },
       "recommended": true
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingCommas": "none",
+      "indentWidth": 2,
+      "indentStyle": "tab"
     }
   }
 }
