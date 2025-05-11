@@ -35,10 +35,7 @@ export const TechnologyForm = ({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto max-w-md space-y-4"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="name">Technology Name</Label>
         <Input
