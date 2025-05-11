@@ -45,9 +45,10 @@ export const TechnologyForm = ({ technology }: TechnologyFormProps) => {
       }
       toast.error("Something went wrong");
     },
-    onSuccess: () => {
+    onSettled: () => {
       invalidateQuery("technology", "getAll");
     },
+    mutationKey: [["technology", "create"]],
   });
 
   const onSubmit: SubmitHandler<CreateTechnology> = (data) => {

@@ -14,15 +14,19 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import { Spinner } from "../ui/spinner";
 import { TechnologyForm } from "./TechnologyForm";
+
 interface TechnologyCardProps {
   tech: Technology;
   category: Category;
+  className?: string;
 }
 
 export default function TechnologyCard({
   tech,
   category,
+  className,
 }: TechnologyCardProps) {
   const { invalidateQuery } = useInvalidateQuery();
   const deleteTechnology = api.technology.delete.useMutation({
@@ -36,13 +40,21 @@ export default function TechnologyCard({
   };
 
   return (
-    <Card className={cn("transition-all", category.color)}>
+    <Card className={cn("transition-all", category.color, className)}>
       <CardHeader>
         <div className="flex items-start justify-between">
           <div>
-            <CardTitle className="text-lg">{tech.name}</CardTitle>
+            <CardTitle className="text-lg">
+              {tech.name}{" "}
+              {deleteTechnology.isPending &&
+                deleteTechnology.variables?.id === tech.id && (
+                  <Spinner size="sm" className="ml-2" />
+                )}
+            </CardTitle>
+
             <CardDescription className="text-sm capitalize">
               {category.name} • Priority: {tech.priority}
+              <br />
             </CardDescription>
           </div>
           <div className="flex gap-2">

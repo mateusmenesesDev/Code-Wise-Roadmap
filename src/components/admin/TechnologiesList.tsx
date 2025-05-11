@@ -1,8 +1,10 @@
 "use client";
 
+import { useMutationState } from "@tanstack/react-query";
 import { Button } from "~/components/ui/button";
 import { categories } from "~/constants";
 import { type RouterOutputs, api } from "~/trpc/react";
+import type { CreateTechnology } from "~/types/Technology.type";
 import { FormDialog } from "../Dialog/FormDialog";
 import TechnologyCard from "./TechnologyCard";
 import TechnologyForm from "./TechnologyForm";
@@ -14,8 +16,14 @@ type TechnologiesListProps = {
 function TechnologiesList({ initialData }: TechnologiesListProps) {
   const { data: technologies } = api.technology.getAll.useQuery(undefined, {
     initialData,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
+  });
+
+  const variables = useMutationState<CreateTechnology>({
+    filters: {
+      mutationKey: [["technology", "create"]],
+      status: "pending",
+    },
+    select: (mutation) => mutation.state.variables as CreateTechnology,
   });
 
   const getCategoryByName = (name: string) => {
@@ -50,6 +58,14 @@ function TechnologiesList({ initialData }: TechnologiesListProps) {
             <TechnologyCard key={tech.id} tech={tech} category={category} />
           );
         })}
+        {variables[0] && (
+          <TechnologyCard
+            key={variables[0].name}
+            tech={{ ...variables[0], id: 0 }}
+            category={getCategoryByName(variables[0].category)}
+            className="animate-pulse"
+          />
+        )}
       </div>
     </div>
   );
