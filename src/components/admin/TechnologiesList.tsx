@@ -2,21 +2,44 @@
 
 import { Button } from "~/components/ui/button";
 import { categories } from "~/constants";
-import type { Technology } from "~/types/Technology.type";
+import { type RouterOutputs, api } from "~/trpc/react";
 import { FormDialog } from "../Dialog/FormDialog";
 import TechnologyCard from "./TechnologyCard";
 import TechnologyForm from "./TechnologyForm";
 
 type TechnologiesListProps = {
-  technologies: Technology[];
+  initialData: RouterOutputs["technology"]["getAll"];
 };
 
-function TechnologiesList({ technologies }: TechnologiesListProps) {
+function TechnologiesList({ initialData }: TechnologiesListProps) {
+  const { data: technologies, isLoading } = api.technology.getAll.useQuery(
+    undefined,
+    {
+      initialData,
+    }
+  );
+
   const getCategoryByName = (name: string) => {
     return (
       categories.find((c) => c.name === name) || { name: name, color: "gray" }
     );
   };
+
+  if (isLoading) {
+    return (
+      <div className="py-12 text-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
+
+  if (technologies.length === 0) {
+    return (
+      <div className="py-12 text-center">
+        <p className="text-muted-foreground">No technologies added yet.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -26,10 +49,8 @@ function TechnologiesList({ technologies }: TechnologiesListProps) {
           title="Add Technology"
           description="Add a new technology to the list"
           trigger={<Button>Add Technology</Button>}
-          saveButtonText="Add Technology"
-          cancelButtonText="Cancel"
         >
-          <TechnologyForm onCancel={() => {}} />
+          <TechnologyForm />
         </FormDialog>
       </div>
 
@@ -41,14 +62,6 @@ function TechnologiesList({ technologies }: TechnologiesListProps) {
           );
         })}
       </div>
-
-      {technologies.length === 0 && (
-        <div className="py-12 text-center">
-          <p className="text-muted-foreground">
-            No technologies added yet. Click "Add Technology" to get started.
-          </p>
-        </div>
-      )}
     </div>
   );
 }

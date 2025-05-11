@@ -1,8 +1,10 @@
-import { technologies } from "~/data/mockData";
+import { api } from "~/trpc/server";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import TechnologiesList from "./TechnologiesList";
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+  const technologies = await api.technology.getAll();
+
   return (
     <div>
       <h1 className="mb-12 font-bold text-3xl">Admin Dashboard</h1>
@@ -18,7 +20,7 @@ export default function AdminDashboard() {
         </TabsList>
 
         <TabsContent value="technologies" className="animate-in">
-          <TechnologiesList technologies={technologies} />
+          <TechnologiesList initialData={technologies} />
         </TabsContent>
       </Tabs>
     </div>

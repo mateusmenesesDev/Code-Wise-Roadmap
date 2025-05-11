@@ -4,6 +4,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 
+import { Provider as JotaiProvider } from "jotai";
+import { Toaster } from "sonner";
 import Header from "~/components/Header";
 import { SEO } from "~/constants";
 import { TRPCReactProvider } from "~/trpc/react";
@@ -30,10 +32,13 @@ export default function RootLayout({
       <body>
         <ClerkProvider>
           <TRPCReactProvider>
-            <HydrateClient>
-              <Header />
-              {children}
-            </HydrateClient>
+            <JotaiProvider>
+              <HydrateClient>
+                <Toaster richColors />
+                <Header />
+                {children}
+              </HydrateClient>
+            </JotaiProvider>
           </TRPCReactProvider>
         </ClerkProvider>
       </body>

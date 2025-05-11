@@ -9,10 +9,10 @@ export const technologies = createTable(
   "technologies",
   (d) => ({
     id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
-    name: d.varchar({ length: 256 }),
-    category: d.varchar({ length: 256 }),
-    description: d.text(),
-    priority: d.integer(),
+    name: d.varchar({ length: 256 }).notNull().unique(),
+    category: d.varchar({ length: 256 }).notNull(),
+    description: d.text().notNull(),
+    priority: d.integer().notNull(),
     createdAt: d
       .timestamp({ withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)

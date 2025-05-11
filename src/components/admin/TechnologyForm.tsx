@@ -1,7 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAtom } from "jotai";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -14,24 +16,43 @@ import {
 } from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
 import { categories } from "~/constants";
+import { useInvalidateQuery } from "~/hooks/useInvalidateQuery";
 import { createTechnologySchema } from "~/schemas/technology.schema";
+import { api } from "~/trpc/react";
 import type { CreateTechnology, Technology } from "~/types/Technology.type";
+import { dialogAtom } from "../Dialog/FormDialog";
 
 interface TechnologyFormProps {
   technology?: Technology;
-  onCancel: () => void;
 }
 
-export const TechnologyForm = ({
-  technology,
-  onCancel,
-}: TechnologyFormProps) => {
-  const { register, handleSubmit } = useForm<CreateTechnology>({
-    resolver: zodResolver(createTechnologySchema),
+export const TechnologyForm = ({ technology }: TechnologyFormProps) => {
+  const { invalidateQuery } = useInvalidateQuery();
+  const [, setDialogOpen] = useAtom(dialogAtom);
+
+  const { register, handleSubmit, setValue, watch } = useForm<CreateTechnology>(
+    {
+      resolver: zodResolver(createTechnologySchema),
+    }
+  );
+
+  const category = watch("category");
+  const createTechnology = api.technology.create.useMutation({
+    onError: (error) => {
+      console.error(error);
+      if (error.data?.code === "CONFLICT") {
+        return toast.error("Technology already exists");
+      }
+      toast.error("Something went wrong");
+    },
+    onSuccess: () => {
+      invalidateQuery("technology", "getAll");
+    },
   });
 
   const onSubmit: SubmitHandler<CreateTechnology> = (data) => {
-    console.log(data);
+    setDialogOpen(false);
+    createTechnology.mutate(data);
   };
 
   return (
@@ -48,7 +69,10 @@ export const TechnologyForm = ({
 
       <div className="space-y-2">
         <Label htmlFor="category">Category</Label>
-        <Select {...register("category")}>
+        <Select
+          onValueChange={(value) => setValue("category", value)}
+          value={category}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Select a category" />
           </SelectTrigger>
@@ -86,7 +110,11 @@ export const TechnologyForm = ({
       </div>
 
       <div className="flex justify-end gap-2">
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => setDialogOpen(false)}
+        >
           Cancel
         </Button>
         <Button type="submit">
