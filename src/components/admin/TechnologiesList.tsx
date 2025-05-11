@@ -12,34 +12,17 @@ type TechnologiesListProps = {
 };
 
 function TechnologiesList({ initialData }: TechnologiesListProps) {
-  const { data: technologies, isLoading } = api.technology.getAll.useQuery(
-    undefined,
-    {
-      initialData,
-    }
-  );
+  const { data: technologies } = api.technology.getAll.useQuery(undefined, {
+    initialData,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
   const getCategoryByName = (name: string) => {
     return (
       categories.find((c) => c.name === name) || { name: name, color: "gray" }
     );
   };
-
-  if (isLoading) {
-    return (
-      <div className="py-12 text-center">
-        <p className="text-muted-foreground">Loading...</p>
-      </div>
-    );
-  }
-
-  if (technologies.length === 0) {
-    return (
-      <div className="py-12 text-center">
-        <p className="text-muted-foreground">No technologies added yet.</p>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">
@@ -53,6 +36,12 @@ function TechnologiesList({ initialData }: TechnologiesListProps) {
           <TechnologyForm />
         </FormDialog>
       </div>
+
+      {technologies.length === 0 && (
+        <div className="py-12 text-center">
+          <p className="text-muted-foreground">No technologies added yet.</p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {technologies.map((tech) => {

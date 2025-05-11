@@ -1,5 +1,7 @@
 import { Edit, Trash2 } from "lucide-react";
+import { useInvalidateQuery } from "~/hooks/useInvalidateQuery";
 import { cn } from "~/lib/utils";
+import { api } from "~/trpc/react";
 import type { Category } from "~/types/Category.type";
 import type { Technology } from "~/types/Technology.type";
 import { ConfirmationDialog } from "../Dialog/ConfirmationDialog";
@@ -22,6 +24,17 @@ export default function TechnologyCard({
   tech,
   category,
 }: TechnologyCardProps) {
+  const { invalidateQuery } = useInvalidateQuery();
+  const deleteTechnology = api.technology.delete.useMutation({
+    onSuccess: () => {
+      invalidateQuery("technology", "getAll");
+    },
+  });
+
+  const handleDelete = () => {
+    deleteTechnology.mutate({ id: tech.id });
+  };
+
   return (
     <Card className={cn("transition-all", category.color)}>
       <CardHeader>
@@ -42,12 +55,12 @@ export default function TechnologyCard({
                 </Button>
               }
             >
-              <TechnologyForm onCancel={() => {}} />
+              <TechnologyForm technology={tech} />
             </FormDialog>
             <ConfirmationDialog
               title="Delete Technology"
               description={`Are you sure you want to delete: ${tech.name}?`}
-              onConfirm={() => {}}
+              onConfirm={handleDelete}
               trigger={
                 <Button
                   variant="ghost"
