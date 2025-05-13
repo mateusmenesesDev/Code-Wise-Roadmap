@@ -1,17 +1,22 @@
+"use client";
+
 // import RatingBoard from "../components/rating/RatingBoard";
 // import RoadmapView from "../components/roadmap/RoadmapView";
 // import { useRoadmap } from "../context/RoadmapContext";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+
+import { useState } from "react";
+import { RateBoard } from "./roadmap/rate/RateBoard";
 
 export default function UserDashboard() {
-	// const { generatedRoadmap } = useRoadmap();
-	// const [activeTab, setActiveTab] = useState(
-	//   generatedRoadmap.length > 0 ? "roadmap" : "rate"
-	// );
+  // const { generatedRoadmap } = useRoadmap();
+  const [activeTab, setActiveTab] = useState("rate");
+  const roadmap = [];
 
-	return (
-		<div className="min-h-screen bg-background">
-			{/* <div className="container mx-auto py-8 px-4">
-        <h1 className="text-3xl font-bold mb-6">Developer Roadmap</h1>
+  return (
+    <div className="bg-background">
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="mb-6 font-bold text-3xl">Developer Roadmap</h1>
 
         <Tabs
           value={activeTab}
@@ -20,23 +25,21 @@ export default function UserDashboard() {
         >
           <TabsList>
             <TabsTrigger value="rate">Rate Your Skills</TabsTrigger>
-            <TabsTrigger
-              value="roadmap"
-              disabled={generatedRoadmap.length === 0}
-            >
+            <TabsTrigger value="roadmap" disabled={roadmap.length === 0}>
               Your Roadmap
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="rate" className="animate-in">
-            <RatingBoard />
+            <RateBoard />
           </TabsContent>
 
           <TabsContent value="roadmap" className="animate-in">
-            <RoadmapView />
+            {/* <RoadmapView /> */}
+            <div>Roadmap</div>
           </TabsContent>
         </Tabs>
-      </div> */}
-		</div>
-	);
+      </div>
+    </div>
+  );
 }

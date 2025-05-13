@@ -43,6 +43,8 @@
     "next": "^15.2.3",
     "postgres": "^3.4.4",
     "react": "^19.0.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.3",
     "server-only": "^0.0.1",
