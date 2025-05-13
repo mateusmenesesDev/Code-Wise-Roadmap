@@ -1,5 +1,7 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
+import { skillRateRouter } from "./routers/skillRate/skillRate.route";
 import { technologyRouter } from "./routers/technology/technology.route";
+
 /**
  * This is the primary router for your server.
  *
@@ -7,6 +9,7 @@ import { technologyRouter } from "./routers/technology/technology.route";
  */
 export const appRouter = createTRPCRouter({
   technology: technologyRouter,
+  skillRate: skillRateRouter,
 });
 
 // export type definition of API

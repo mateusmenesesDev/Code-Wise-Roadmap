@@ -17,6 +17,7 @@ export function RateBoard() {
     userRatings,
     setUserRatings,
     resetRatings,
+    handleGenerateRoadmap,
   } = useRoadmap();
 
   const ratedCount = userRatings.length;
@@ -76,7 +77,9 @@ export function RateBoard() {
           <Button variant="outline" onClick={resetRatings}>
             Reset Ratings
           </Button>
-          <Button disabled={ratedCount === 0}>Generate Roadmap</Button>
+          <Button disabled={ratedCount === 0} onClick={handleGenerateRoadmap}>
+            Generate Roadmap
+          </Button>
         </div>
       </div>
     </DndProvider>

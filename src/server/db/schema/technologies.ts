@@ -3,7 +3,9 @@
 
 import { sql } from "drizzle-orm";
 import { index } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm/relations";
 import { createTable } from "./config";
+import { skillRate } from "./skillRate";
 
 export const technologies = createTable(
   "technologies",
@@ -21,3 +23,7 @@ export const technologies = createTable(
   }),
   (t) => [index("name_idx").on(t.name)]
 );
+
+export const technologiesRelations = relations(technologies, ({ many }) => ({
+  skillRates: many(skillRate),
+}));

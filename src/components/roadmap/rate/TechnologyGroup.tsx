@@ -13,7 +13,6 @@ export function TechnologyGroup({
   technologies,
   userRatings,
 }: TechnologyGroupProps) {
-  const categoryLabel = category.charAt(0).toUpperCase() + category.slice(1);
   const unratedTechs = technologies.filter(
     (tech) => !userRatings.some((r) => r.technology === tech.name)
   );
@@ -22,7 +21,7 @@ export function TechnologyGroup({
 
   return (
     <div className="space-y-4">
-      <h3 className="font-medium text-xl">{categoryLabel}</h3>
+      <h3 className="font-medium text-xl">{category}</h3>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {unratedTechs.map((tech) => (
           <TechnologyItem

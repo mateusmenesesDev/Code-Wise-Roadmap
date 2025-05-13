@@ -6,12 +6,21 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 import { useState } from "react";
+import { useAuth } from "~/hooks/useAuth";
+import { api } from "~/trpc/react";
+import { RoadmapView } from "./roadmap/RoadmapView";
 import { RateBoard } from "./roadmap/rate/RateBoard";
 
 export default function UserDashboard() {
-  // const { generatedRoadmap } = useRoadmap();
-  const [activeTab, setActiveTab] = useState("rate");
-  const roadmap = [];
+  const { user } = useAuth();
+
+  const userHasRated = api.skillRate.userHasRated.useQuery({
+    userId: user?.id || "",
+  });
+
+  console.log(userHasRated.data);
+
+  const [activeTab, setActiveTab] = useState("roadmap");
 
   return (
     <div className="bg-background">
@@ -25,7 +34,7 @@ export default function UserDashboard() {
         >
           <TabsList>
             <TabsTrigger value="rate">Rate Your Skills</TabsTrigger>
-            <TabsTrigger value="roadmap" disabled={roadmap.length === 0}>
+            <TabsTrigger value="roadmap" disabled={!userHasRated.data}>
               Your Roadmap
             </TabsTrigger>
           </TabsList>
@@ -35,8 +44,7 @@ export default function UserDashboard() {
           </TabsContent>
 
           <TabsContent value="roadmap" className="animate-in">
-            {/* <RoadmapView /> */}
-            <div>Roadmap</div>
+            <RoadmapView />
           </TabsContent>
         </Tabs>
       </div>

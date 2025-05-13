@@ -16,6 +16,7 @@ export function Spinner({ size = "md", className, ...props }: SpinnerProps) {
         },
         className
       )}
+      // biome-ignore lint/a11y/useSemanticElements: <explanation>
       role="status"
       {...props}
     >
