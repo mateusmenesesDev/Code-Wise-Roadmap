@@ -1,14 +1,16 @@
-import { useRouter } from "next/navigation";
+"use client";
+
 import { useState } from "react";
 import { toast } from "sonner";
 import { api } from "~/trpc/react";
 import type { UserRating } from "~/types/Roadmap.type";
 import { useAuth } from "./useAuth";
 import { useInvalidateQuery } from "./useInvalidateQuery";
+import { useTabs } from "./useTabs";
 
 export const useRoadmap = () => {
-  const router = useRouter();
   const { isSignedIn, user } = useAuth();
+  const { setActiveTab } = useTabs();
 
   const { data: technologies, isLoading: isTechnologiesLoading } =
     api.technology.getAll.useQuery();
@@ -52,7 +54,7 @@ export const useRoadmap = () => {
       async () => {
         await Promise.all(promises);
         invalidateQuery("skillRate", "getByUserId");
-        router.push("/roadmap");
+        setActiveTab("roadmap");
       },
       {
         loading: "Generating roadmap...",

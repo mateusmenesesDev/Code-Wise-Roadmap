@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef } from "react";
 import { useDrop } from "react-dnd";
 import type { UserRating } from "~/types/Roadmap.type";

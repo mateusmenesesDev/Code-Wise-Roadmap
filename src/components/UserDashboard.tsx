@@ -1,12 +1,9 @@
 "use client";
 
-// import RatingBoard from "../components/rating/RatingBoard";
-// import RoadmapView from "../components/roadmap/RoadmapView";
-// import { useRoadmap } from "../context/RoadmapContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
-import { useState } from "react";
 import { useAuth } from "~/hooks/useAuth";
+import { useTabs } from "~/hooks/useTabs";
 import { api } from "~/trpc/react";
 import { RoadmapView } from "./roadmap/RoadmapView";
 import { RateBoard } from "./roadmap/rate/RateBoard";
@@ -18,9 +15,7 @@ export default function UserDashboard() {
     userId: user?.id || "",
   });
 
-  console.log(userHasRated.data);
-
-  const [activeTab, setActiveTab] = useState("roadmap");
+  const { activeTab, setActiveTab } = useTabs();
 
   return (
     <div className="bg-background">

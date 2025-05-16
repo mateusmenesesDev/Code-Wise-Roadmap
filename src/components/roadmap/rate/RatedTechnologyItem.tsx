@@ -1,3 +1,5 @@
+"use client";
+
 import { MoveHorizontal } from "lucide-react";
 import { useRef } from "react";
 import { useDrag } from "react-dnd";
