@@ -1,15 +1,12 @@
 import { AlertTriangle, Check, Star } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { categories } from "~/constants";
-import type { RouterOutputs } from "~/trpc/react";
-
-type SkillRate = RouterOutputs["skillRate"]["getByUserId"][number];
+import type { SkillRate } from "~/utils/roadmap";
+import {
+  calculateOverallPriority,
+  getPriorityLabel,
+  getRatingLabel,
+} from "~/utils/roadmap";
 
 interface CategoryViewProps {
   techByCategories: Record<string, SkillRate[]>;
@@ -20,37 +17,6 @@ export function CategoryView({
   techByCategories,
   userRatings,
 }: CategoryViewProps) {
-  const getRatingLabel = (rating: number) => {
-    if (rating === 25) return "Beginner (25%)";
-    if (rating === 50) return "Intermediate (50%)";
-    if (rating === 75) return "Advanced (75%)";
-    return "Expert (100%)";
-  };
-
-  const getPriorityLabel = (priority: number) => {
-    if (priority <= 3) return { label: "High Priority", color: "text-red-400" };
-    if (priority <= 6)
-      return { label: "Medium Priority", color: "text-yellow-400" };
-    return { label: "Low Priority", color: "text-green-400" };
-  };
-
-  const calculateOverallPriority = (tech: SkillRate) => {
-    const priority = tech.techDetails?.priority || 5;
-    const rating = tech.rating;
-
-    // For technologies that are already proficient (rating >= 75)
-    // we want them to appear at the bottom
-    if (rating >= 75) {
-      return 1000; // Large number to push them to the bottom
-    }
-
-    // For non-proficient technologies:
-    // - Lower priority number (1-3) means higher importance
-    // - Lower rating means higher importance
-    // We multiply by 100 to ensure proper sorting
-    return priority * (100 - rating);
-  };
-
   return (
     <div className="mt-8 border-border border-t pt-8">
       <h2 className="mb-4 font-bold text-xl">Technologies by Category</h2>
@@ -105,7 +71,7 @@ export function CategoryView({
                               </div>
                             )}
                           </div>
-                          <CardDescription>
+                          <div className="mt-1 text-muted-foreground text-sm">
                             <div className="flex items-center gap-2">
                               <span>Your level: {getRatingLabel(rating)}</span>
                               <div className="flex">
@@ -121,7 +87,7 @@ export function CategoryView({
                                 ))}
                               </div>
                             </div>
-                          </CardDescription>
+                          </div>
                         </div>
                         {rating >= 75 && (
                           <div className="flex items-center gap-1 text-green-400">
