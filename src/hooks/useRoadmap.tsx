@@ -1,10 +1,13 @@
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { api } from "~/trpc/react";
 import type { UserRating } from "~/types/Roadmap.type";
 import { useAuth } from "./useAuth";
+import { useInvalidateQuery } from "./useInvalidateQuery";
 
 export const useRoadmap = () => {
+  const router = useRouter();
   const { isSignedIn, user } = useAuth();
 
   const { data: technologies, isLoading: isTechnologiesLoading } =
@@ -22,6 +25,7 @@ export const useRoadmap = () => {
   }, {});
 
   const [userRatings, setUserRatings] = useState<UserRating[]>([]);
+  const { invalidateQuery } = useInvalidateQuery();
 
   const resetRatings = () => {
     setUserRatings([]);
@@ -47,6 +51,8 @@ export const useRoadmap = () => {
     toast.promise(
       async () => {
         await Promise.all(promises);
+        invalidateQuery("skillRate", "getByUserId");
+        router.push("/roadmap");
       },
       {
         loading: "Generating roadmap...",
