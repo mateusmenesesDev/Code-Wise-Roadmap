@@ -19,7 +19,6 @@ export function RatingsView({ techByRating }: RatingsViewProps) {
         .map(([ratingKey, techs]) => {
           const rating = Number(ratingKey);
 
-          // Sort technologies by priority within each rating column
           const sortedTechs = [...techs].sort((a, b) => {
             const priorityA = calculateOverallPriority(a);
             const priorityB = calculateOverallPriority(b);
@@ -35,7 +34,7 @@ export function RatingsView({ techByRating }: RatingsViewProps) {
                 {getRatingLabel(rating)}
               </h3>
 
-              <div className="space-y-2">
+              <div className="h-[600px] space-y-2 overflow-y-auto">
                 {sortedTechs?.map((tech) => {
                   const priority = tech.techDetails?.priority || 5;
                   const priorityInfo = getPriorityLabel(priority);
@@ -57,6 +56,7 @@ export function RatingsView({ techByRating }: RatingsViewProps) {
                               <AlertTriangle className="h-3 w-3" />
                               <span className="text-xs">
                                 {priorityInfo.label}
+                                teste
                               </span>
                             </div>
                           )}

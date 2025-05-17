@@ -43,11 +43,23 @@ export function RoadmapView({ userId }: RoadmapViewProps) {
   for (const tech of userRatings.data || []) {
     const rating = tech.rating;
 
-    if (rating === 0) techByRating["0"]?.push(tech);
-    else if (rating === 25) techByRating["25"]?.push(tech);
-    else if (rating === 50) techByRating["50"]?.push(tech);
-    else if (rating === 75) techByRating["75"]?.push(tech);
-    else if (rating === 100) techByRating["100"]?.push(tech);
+    switch (rating) {
+      case 0:
+        techByRating["0"]?.push(tech);
+        break;
+      case 25:
+        techByRating["25"]?.push(tech);
+        break;
+      case 50:
+        techByRating["50"]?.push(tech);
+        break;
+      case 100:
+        techByRating["100"]?.push(tech);
+        break;
+      default:
+        techByRating["0"]?.push(tech);
+        break;
+    }
   }
 
   const techByCategories = userRatings.data?.reduce((acc, tech) => {
