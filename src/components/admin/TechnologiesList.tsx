@@ -26,10 +26,8 @@ function TechnologiesList({ initialData }: TechnologiesListProps) {
     select: (mutation) => mutation.state.variables as CreateTechnology,
   });
 
-  // TODO: Edit is not working
   // TODO: Sort technologies by priority and category
   // TODO: Allow to create technology with same name but different category
-  // TODO: The dialog overlay for edit and create are with a black background
   // TODO: After creating a technology, the screen scroll to the bottom. Let's keep it at the same place
 
   const getCategoryByName = (name: string) => {
@@ -47,7 +45,7 @@ function TechnologiesList({ initialData }: TechnologiesListProps) {
           description="Add a new technology to the list"
           trigger={<Button>Add Technology</Button>}
         >
-          <TechnologyForm />
+          {(onOpenChange) => <TechnologyForm onOpenChange={onOpenChange} />}
         </FormDialog>
       </div>
 

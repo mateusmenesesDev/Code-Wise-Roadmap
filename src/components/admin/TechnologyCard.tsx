@@ -67,7 +67,9 @@ export default function TechnologyCard({
                 </Button>
               }
             >
-              <TechnologyForm technology={tech} />
+              {(onOpenChange) => (
+                <TechnologyForm technology={tech} onOpenChange={onOpenChange} />
+              )}
             </FormDialog>
             <ConfirmationDialog
               title="Delete Technology"

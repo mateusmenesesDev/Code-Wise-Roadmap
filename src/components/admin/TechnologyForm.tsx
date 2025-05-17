@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAtom } from "jotai";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
@@ -20,19 +19,22 @@ import { useInvalidateQuery } from "~/hooks/useInvalidateQuery";
 import { createTechnologySchema } from "~/schemas/technology.schema";
 import { api } from "~/trpc/react";
 import type { CreateTechnology, Technology } from "~/types/Technology.type";
-import { dialogAtom } from "../Dialog/FormDialog";
 
 interface TechnologyFormProps {
   technology?: Technology;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export const TechnologyForm = ({ technology }: TechnologyFormProps) => {
+export const TechnologyForm = ({
+  technology,
+  onOpenChange,
+}: TechnologyFormProps) => {
   const { invalidateQuery } = useInvalidateQuery();
-  const [, setDialogOpen] = useAtom(dialogAtom);
 
   const { register, handleSubmit, setValue, watch } = useForm<CreateTechnology>(
     {
       resolver: zodResolver(createTechnologySchema),
+      defaultValues: technology,
     }
   );
 
@@ -51,9 +53,24 @@ export const TechnologyForm = ({ technology }: TechnologyFormProps) => {
     mutationKey: [["technology", "create"]],
   });
 
+  const updateTechnology = api.technology.update.useMutation({
+    onError: (error) => {
+      console.error(error);
+      toast.error("Something went wrong");
+    },
+    onSettled: () => {
+      invalidateQuery("technology", "getAll");
+    },
+    mutationKey: [["technology", "update"]],
+  });
+
   const onSubmit: SubmitHandler<CreateTechnology> = (data) => {
-    setDialogOpen(false);
-    createTechnology.mutate(data);
+    onOpenChange?.(false);
+    if (technology) {
+      updateTechnology.mutate({ ...data, id: technology.id });
+    } else {
+      createTechnology.mutate(data);
+    }
   };
 
   return (
@@ -114,7 +131,7 @@ export const TechnologyForm = ({ technology }: TechnologyFormProps) => {
         <Button
           type="button"
           variant="outline"
-          onClick={() => setDialogOpen(false)}
+          onClick={() => onOpenChange?.(false)}
         >
           Cancel
         </Button>

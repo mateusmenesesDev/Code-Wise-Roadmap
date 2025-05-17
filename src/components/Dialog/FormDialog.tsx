@@ -1,4 +1,4 @@
-import { atom, useAtom } from "jotai";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -9,20 +9,20 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 
-export const dialogAtom = atom(false);
+interface FormDialogProps {
+  title: string;
+  description: string;
+  children: (onOpenChange: (open: boolean) => void) => React.ReactNode;
+  trigger: React.ReactNode;
+}
 
 export const FormDialog = ({
   title,
   description,
   children,
   trigger,
-}: {
-  title: string;
-  description: string;
-  children: React.ReactNode;
-  trigger: React.ReactNode;
-}) => {
-  const [open, setOpen] = useAtom(dialogAtom);
+}: FormDialogProps) => {
+  const [open, setOpen] = useState(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -33,7 +33,7 @@ export const FormDialog = ({
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
-          {children}
+          {children(setOpen)}
         </DialogContent>
       </DialogPortal>
     </Dialog>
