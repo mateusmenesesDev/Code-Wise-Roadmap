@@ -16,12 +16,16 @@ export async function getUserList(): Promise<User[]> {
   }));
 }
 
-export async function getUserById(id: string): Promise<User> {
-  const user = await clerkClient.users.getUser(id);
-  return {
-    id: user.id,
-    email: user.emailAddresses[0]?.emailAddress ?? "",
-    firstName: user.firstName ?? "",
-    lastName: user.lastName ?? "",
-  };
+export async function getUserById(id: string): Promise<User | null> {
+  try {
+    const user = await clerkClient.users.getUser(id);
+    return {
+      id: user.id,
+      email: user.emailAddresses[0]?.emailAddress ?? "",
+      firstName: user.firstName ?? "",
+      lastName: user.lastName ?? "",
+    };
+  } catch (_error) {
+    return null;
+  }
 }

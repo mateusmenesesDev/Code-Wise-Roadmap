@@ -9,6 +9,10 @@ export default async function UserPage({
   const { id } = await params;
   const user = await getUserById(id);
 
+  if (!user) {
+    return <div>User not found</div>;
+  }
+
   return (
     <>
       <div className="flex flex-col gap-4">
