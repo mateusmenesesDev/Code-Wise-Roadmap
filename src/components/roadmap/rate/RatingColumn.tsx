@@ -46,16 +46,18 @@ export function RatingColumn({
     >
       <h3 className="mb-4 text-center font-medium text-lg">{title}</h3>
 
-      <div className="space-y-2">
-        {filteredTechnologies.map((tech) => (
-          <RatedTechnologyItem key={tech.name} technology={tech} />
-        ))}
+      <div className="h-[calc(400px-4rem)] overflow-y-auto pr-2">
+        <div className="space-y-2">
+          {filteredTechnologies.map((tech) => (
+            <RatedTechnologyItem key={tech.name} technology={tech} />
+          ))}
 
-        {filteredTechnologies.length === 0 && (
-          <div className="py-8 text-center text-muted-foreground text-sm">
-            Drop technologies here
-          </div>
-        )}
+          {filteredTechnologies.length === 0 && (
+            <div className="py-8 text-center text-muted-foreground text-sm">
+              Drop technologies here
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
