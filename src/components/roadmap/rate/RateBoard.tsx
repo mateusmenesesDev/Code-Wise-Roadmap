@@ -9,7 +9,11 @@ import { RatingColumn } from "./RatingColumn";
 import { RatingProgress } from "./RatingProgress";
 import { TechnologyGroup } from "./TechnologyGroup";
 
-export function RateBoard() {
+type RateBoardProps = {
+  userId?: string;
+};
+
+export function RateBoard({ userId }: RateBoardProps) {
   const {
     technologies,
     isTechnologiesLoading,
@@ -18,7 +22,7 @@ export function RateBoard() {
     setUserRatings,
     resetRatings,
     handleGenerateRoadmap,
-  } = useRoadmap();
+  } = useRoadmap(userId);
 
   const ratedCount = userRatings.length;
   const totalCount = technologies?.length || 0;

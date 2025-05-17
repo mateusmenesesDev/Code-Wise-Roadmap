@@ -8,7 +8,7 @@ import { useAuth } from "./useAuth";
 import { useInvalidateQuery } from "./useInvalidateQuery";
 import { useTabs } from "./useTabs";
 
-export const useRoadmap = () => {
+export const useRoadmap = (userId?: string) => {
   const { isSignedIn, user } = useAuth();
   const { setActiveTab } = useTabs();
 
@@ -37,7 +37,7 @@ export const useRoadmap = () => {
   const { mutateAsync: createSkillRate } = api.skillRate.create.useMutation();
 
   const handleGenerateRoadmap = async () => {
-    if (!isSignedIn || !user?.id) {
+    if ((!isSignedIn || !user?.id) && !userId) {
       toast.info("You must be logged in to generate a roadmap");
       return;
     }
@@ -46,7 +46,7 @@ export const useRoadmap = () => {
       return createSkillRate({
         technology: rating.technology,
         rating: rating.rating,
-        userId: user.id,
+        userId: userId || user?.id || "",
       });
     });
 

@@ -8,11 +8,15 @@ import { api } from "~/trpc/react";
 import { RoadmapView } from "./roadmap/RoadmapView";
 import { RateBoard } from "./roadmap/rate/RateBoard";
 
-export default function UserDashboard() {
+type UserDashboardProps = {
+  userId?: string;
+};
+
+export default function UserDashboard({ userId }: UserDashboardProps) {
   const { user } = useAuth();
 
   const userHasRated = api.skillRate.userHasRated.useQuery({
-    userId: user?.id || "",
+    userId: userId || user?.id || "",
   });
 
   const { activeTab, setActiveTab } = useTabs();
@@ -35,11 +39,11 @@ export default function UserDashboard() {
           </TabsList>
 
           <TabsContent value="rate" className="animate-in">
-            <RateBoard />
+            <RateBoard userId={userId} />
           </TabsContent>
 
           <TabsContent value="roadmap" className="animate-in">
-            <RoadmapView />
+            <RoadmapView userId={userId} />
           </TabsContent>
         </Tabs>
       </div>

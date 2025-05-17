@@ -4,11 +4,15 @@ import { CategoryView } from "./category/CategoryView";
 import { RecommendedProjects } from "./projects/RecommendedProjects";
 import { RatingsView } from "./ratings/RatingsView";
 
-export function RoadmapView() {
+type RoadmapViewProps = {
+  userId?: string;
+};
+
+export function RoadmapView({ userId }: RoadmapViewProps) {
   const { user } = useAuth();
 
   const userRatings = api.skillRate.getByUserId.useQuery({
-    userId: user?.id || "",
+    userId: userId || user?.id || "",
   });
 
   if (userRatings.isLoading) {
