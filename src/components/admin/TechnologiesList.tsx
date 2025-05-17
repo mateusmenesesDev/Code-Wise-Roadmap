@@ -26,9 +26,6 @@ function TechnologiesList({ initialData }: TechnologiesListProps) {
     select: (mutation) => mutation.state.variables as CreateTechnology,
   });
 
-  // TODO: Allow to create technology with same name but different category
-  // TODO: After creating a technology, the screen scroll to the bottom. Let's keep it at the same place
-
   const getCategoryByName = (name: string) => {
     return (
       categories.find((c) => c.name === name) || { name: name, color: "gray" }
@@ -36,8 +33,8 @@ function TechnologiesList({ initialData }: TechnologiesListProps) {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div>
+      <div className="mb-6 flex items-center justify-between">
         <h2 className="font-bold text-2xl">Technologies</h2>
         <FormDialog
           title="Add Technology"
@@ -48,26 +45,28 @@ function TechnologiesList({ initialData }: TechnologiesListProps) {
         </FormDialog>
       </div>
 
-      {technologies.length === 0 && (
-        <div className="py-12 text-center">
-          <p className="text-muted-foreground">No technologies added yet.</p>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {technologies.map((tech) => {
-          const category = getCategoryByName(tech.category);
-          return (
-            <TechnologyCard key={tech.id} tech={tech} category={category} />
-          );
-        })}
-        {variables[0] && (
-          <TechnologyCard
-            key={variables[0].name}
-            tech={{ ...variables[0], id: 0 }}
-            category={getCategoryByName(variables[0].category)}
-            className="animate-pulse"
-          />
+      <div className="max-h-[calc(100vh-31rem)] overflow-y-auto pr-2">
+        {technologies.length === 0 ? (
+          <div className="py-12 text-center">
+            <p className="text-muted-foreground">No technologies added yet.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {technologies.map((tech) => {
+              const category = getCategoryByName(tech.category);
+              return (
+                <TechnologyCard key={tech.id} tech={tech} category={category} />
+              );
+            })}
+            {variables[0] && (
+              <TechnologyCard
+                key={variables[0].name}
+                tech={{ ...variables[0], id: 0 }}
+                category={getCategoryByName(variables[0].category)}
+                className="animate-pulse"
+              />
+            )}
+          </div>
         )}
       </div>
     </div>
