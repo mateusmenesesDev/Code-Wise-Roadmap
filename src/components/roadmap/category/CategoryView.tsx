@@ -75,7 +75,7 @@ export function CategoryView({
                             <div className="flex items-center gap-2">
                               <span>Your level: {getRatingLabel(rating)}</span>
                               <div className="flex">
-                                {[25, 50, 75, 100].map((starRating) => (
+                                {[0, 25, 50, 75, 100].map((starRating) => (
                                   <Star
                                     key={`${tech.id}-star-${starRating}`}
                                     className={`h-4 w-4 ${
