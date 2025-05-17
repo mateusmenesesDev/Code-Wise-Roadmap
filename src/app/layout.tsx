@@ -14,7 +14,7 @@ import { HydrateClient } from "~/trpc/server";
 export const metadata: Metadata = {
   title: SEO.appTitle,
   description: SEO.appDescription,
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/favicon.svg" }],
   authors: [{ name: SEO.appAuthor }],
   keywords: SEO.appKeywords,
 };
