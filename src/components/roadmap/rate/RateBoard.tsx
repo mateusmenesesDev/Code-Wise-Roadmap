@@ -1,10 +1,20 @@
+import { useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TechnologySkeleton } from "~/components/skeletons/TechnologySkeleton";
 import { Button } from "~/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+import { categories } from "~/constants";
 import { columns } from "~/constants/rateBoard";
 import { useRoadmap } from "~/hooks/useRoadmap";
 import type { UserRating } from "~/types/Roadmap.type";
+import type { Technology } from "~/types/Technology.type";
 import { RatingColumn } from "./RatingColumn";
 import { RatingProgress } from "./RatingProgress";
 import { TechnologyGroup } from "./TechnologyGroup";
@@ -14,6 +24,7 @@ type RateBoardProps = {
 };
 
 export function RateBoard({ userId }: RateBoardProps) {
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const {
     technologies,
     isTechnologiesLoading,
@@ -34,6 +45,20 @@ export function RateBoard({ userId }: RateBoardProps) {
     });
   };
 
+  const filteredTechnologies =
+    technologies?.filter(
+      (tech) => selectedCategory === "all" || tech.category === selectedCategory
+    ) || [];
+
+  const filteredGroupedTechnologies = Object.entries(
+    groupedTechnologies || {}
+  ).reduce((acc, [category, techs]) => {
+    if (selectedCategory === "all" || category === selectedCategory) {
+      acc[category] = techs;
+    }
+    return acc;
+  }, {} as Record<string, Technology[]>);
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="space-y-8">
@@ -44,14 +69,32 @@ export function RateBoard({ userId }: RateBoardProps) {
             help generate a personalized roadmap.
           </p>
 
-          <RatingProgress ratedCount={ratedCount} totalCount={totalCount} />
+          <div className="mt-4 flex items-center gap-4">
+            <Select
+              value={selectedCategory}
+              onValueChange={setSelectedCategory}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Filter by category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category.name} value={category.name}>
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <RatingProgress ratedCount={ratedCount} totalCount={totalCount} />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
           {columns.map((column) => (
             <RatingColumn
               key={column.title}
-              technologies={technologies || []}
+              technologies={filteredTechnologies}
               rating={column.rating as UserRating["rating"]}
               userRatings={userRatings}
               onDrop={handleDrop}
@@ -64,7 +107,7 @@ export function RateBoard({ userId }: RateBoardProps) {
           {isTechnologiesLoading ? (
             <TechnologySkeleton />
           ) : (
-            Object.entries(groupedTechnologies || {}).map(
+            Object.entries(filteredGroupedTechnologies).map(
               ([category, techs]) => (
                 <TechnologyGroup
                   key={category}

@@ -1,3 +1,12 @@
+import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+import { categories } from "~/constants";
 import { useAuth } from "~/hooks/useAuth";
 import { api } from "~/trpc/react";
 import { CategoryView } from "./category/CategoryView";
@@ -9,6 +18,7 @@ type RoadmapViewProps = {
 };
 
 export function RoadmapView({ userId }: RoadmapViewProps) {
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const { user } = useAuth();
 
   const userRatings = api.skillRate.getByUserId.useQuery({
@@ -70,6 +80,27 @@ export function RoadmapView({ userId }: RoadmapViewProps) {
     return acc;
   }, {} as Record<string, typeof userRatings.data>);
 
+  const filteredTechByRating = Object.entries(techByRating).reduce(
+    (acc, [rating, techs]) => {
+      acc[rating] = techs.filter(
+        (tech) =>
+          selectedCategory === "all" ||
+          tech.techDetails?.category === selectedCategory
+      );
+      return acc;
+    },
+    {} as Record<string, typeof userRatings.data>
+  );
+
+  const filteredTechByCategories = Object.entries(
+    techByCategories || {}
+  ).reduce((acc, [category, techs]) => {
+    if (selectedCategory === "all" || category === selectedCategory) {
+      acc[category] = techs;
+    }
+    return acc;
+  }, {} as Record<string, typeof userRatings.data>);
+
   return (
     <div className="space-y-8">
       <div>
@@ -78,12 +109,28 @@ export function RoadmapView({ userId }: RoadmapViewProps) {
           Based on your skill ratings, here's your personalized learning path.
           Focus on areas with lower ratings first.
         </p>
+
+        <div className="mt-4">
+          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter by category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Categories</SelectItem>
+              {categories.map((category) => (
+                <SelectItem key={category.name} value={category.name}>
+                  {category.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
-      <RatingsView techByRating={techByRating} />
+      <RatingsView techByRating={filteredTechByRating} />
 
       <CategoryView
-        techByCategories={techByCategories}
+        techByCategories={filteredTechByCategories}
         userRatings={userRatings.data}
       />
 
