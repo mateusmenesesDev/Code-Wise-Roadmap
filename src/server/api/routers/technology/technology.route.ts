@@ -31,7 +31,8 @@ export const technologyRouter = createTRPCRouter({
         ) {
           throw new TRPCError({
             code: "CONFLICT",
-            message: "Technology already exists",
+            message:
+              "A technology with this name already exists in this category",
           });
         }
         throw error;
@@ -51,7 +52,10 @@ export const technologyRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const technology = await ctx.db
         .update(technologies)
-        .set(input)
+        .set({
+          ...input,
+          name: input.name ? input.name.toUpperCase() : input.name,
+        })
         .where(eq(technologies.id, input.id));
       return technology;
     }),
