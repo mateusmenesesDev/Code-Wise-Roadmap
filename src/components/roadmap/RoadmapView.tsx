@@ -33,6 +33,7 @@ export function RoadmapView({ userId }: RoadmapViewProps) {
 
   // category technologies by their rating
   const techByRating: Record<string, typeof userRatings.data> = {
+    "0": [],
     "25": [],
     "50": [],
     "75": [],
@@ -42,7 +43,8 @@ export function RoadmapView({ userId }: RoadmapViewProps) {
   for (const tech of userRatings.data || []) {
     const rating = tech.rating;
 
-    if (rating === 25) techByRating["25"]?.push(tech);
+    if (rating === 0) techByRating["0"]?.push(tech);
+    else if (rating === 25) techByRating["25"]?.push(tech);
     else if (rating === 50) techByRating["50"]?.push(tech);
     else if (rating === 75) techByRating["75"]?.push(tech);
     else if (rating === 100) techByRating["100"]?.push(tech);

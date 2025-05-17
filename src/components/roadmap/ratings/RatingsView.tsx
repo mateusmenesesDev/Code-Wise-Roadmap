@@ -13,7 +13,7 @@ interface RatingsViewProps {
 
 export function RatingsView({ techByRating }: RatingsViewProps) {
   return (
-    <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-4">
+    <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-5">
       {Object.entries(techByRating)
         .sort((a, b) => Number(a[0]) - Number(b[0]))
         .map(([ratingKey, techs]) => {

@@ -3,10 +3,20 @@ import type { RouterOutputs } from "~/trpc/react";
 export type SkillRate = RouterOutputs["skillRate"]["getByUserId"][number];
 
 export const getRatingLabel = (rating: number) => {
-  if (rating === 25) return "Beginner (25%)";
-  if (rating === 50) return "Intermediate (50%)";
-  if (rating === 75) return "Advanced (75%)";
-  return "Expert (100%)";
+  switch (rating) {
+    case 0:
+      return "No Experience (0%)";
+    case 25:
+      return "Beginner (25%)";
+    case 50:
+      return "Intermediate (50%)";
+    case 75:
+      return "Advanced (75%)";
+    case 100:
+      return "Expert (100%)";
+    default:
+      return "Unknown";
+  }
 };
 
 export const getPriorityLabel = (priority: number) => {
