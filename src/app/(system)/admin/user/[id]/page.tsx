@@ -1,4 +1,7 @@
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import UserDashboard from "~/components/UserDashboard";
+import { Button } from "~/components/ui/button";
 import { getUserById } from "~/server/auth/authServerRequests";
 
 export default async function UserPage({
@@ -16,6 +19,12 @@ export default async function UserPage({
   return (
     <>
       <div className="flex flex-col gap-4">
+        <Link href="/admin">
+          <Button variant="outline" className="h-10 gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Go Back
+          </Button>
+        </Link>
         <h1 className="font-bold text-2xl">
           User: {user.firstName} {user.lastName}
         </h1>

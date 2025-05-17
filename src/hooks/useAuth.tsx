@@ -49,6 +49,7 @@ export const useAuth = () => {
   };
 
   const user = useUser();
+  const isAdmin = user?.user?.publicMetadata.role === "admin";
   const isSignedIn = user?.isSignedIn;
 
   return {
@@ -57,5 +58,6 @@ export const useAuth = () => {
     error,
     user: user?.user,
     isSignedIn,
+    isAdmin,
   };
 };
