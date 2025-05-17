@@ -15,9 +15,6 @@ export default async function AdminDashboard() {
         <TabsList className="mb-6">
           <TabsTrigger value="technologies">Technologies</TabsTrigger>
           <TabsTrigger value="users">Users</TabsTrigger>
-          <TabsTrigger value="settings" disabled>
-            Settings
-          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="technologies" className="animate-in">
