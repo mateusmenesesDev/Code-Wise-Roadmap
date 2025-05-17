@@ -56,7 +56,6 @@ export function RatingsView({ techByRating }: RatingsViewProps) {
                               <AlertTriangle className="h-3 w-3" />
                               <span className="text-xs">
                                 {priorityInfo.label}
-                                teste
                               </span>
                             </div>
                           )}
