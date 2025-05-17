@@ -1,6 +1,7 @@
 import { AlertTriangle, Check, Star } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { categories } from "~/constants";
+import { cn } from "~/lib/utils";
 import type { SkillRate } from "~/utils/roadmap";
 import {
   calculateOverallPriority,
@@ -49,9 +50,7 @@ export function CategoryView({
                 return (
                   <Card
                     key={tech.id}
-                    className={`border-${color}/30${
-                      rating >= 75 ? "bg-muted/30" : ""
-                    }`}
+                    className={cn(color, rating >= 75 && "bg-muted/30")}
                   >
                     <CardHeader className="py-3">
                       <div className="flex items-center justify-between">
