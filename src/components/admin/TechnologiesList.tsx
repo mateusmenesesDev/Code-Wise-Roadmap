@@ -26,7 +26,6 @@ function TechnologiesList({ initialData }: TechnologiesListProps) {
     select: (mutation) => mutation.state.variables as CreateTechnology,
   });
 
-  // TODO: Sort technologies by priority and category
   // TODO: Allow to create technology with same name but different category
   // TODO: After creating a technology, the screen scroll to the bottom. Let's keep it at the same place
 

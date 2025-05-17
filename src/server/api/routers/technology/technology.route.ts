@@ -39,7 +39,10 @@ export const technologyRouter = createTRPCRouter({
     }),
 
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const technologiesData = await ctx.db.select().from(technologies);
+    const technologiesData = await ctx.db
+      .select()
+      .from(technologies)
+      .orderBy(technologies.category, technologies.priority);
     return technologiesData;
   }),
 
