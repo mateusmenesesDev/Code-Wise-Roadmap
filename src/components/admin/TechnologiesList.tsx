@@ -26,6 +26,10 @@ function TechnologiesList({ initialData }: TechnologiesListProps) {
     select: (mutation) => mutation.state.variables as CreateTechnology,
   });
 
+  // TODO: Edit is not working
+  // TODO: Sort technologies by priority and category
+  // TODO: Allow to create technology with same name but different category
+
   const getCategoryByName = (name: string) => {
     return (
       categories.find((c) => c.name === name) || { name: name, color: "gray" }
