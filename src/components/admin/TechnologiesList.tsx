@@ -29,6 +29,7 @@ function TechnologiesList({ initialData }: TechnologiesListProps) {
   // TODO: Edit is not working
   // TODO: Sort technologies by priority and category
   // TODO: Allow to create technology with same name but different category
+  // TODO: The dialog overlay for edit and create are with a black background
 
   const getCategoryByName = (name: string) => {
     return (
