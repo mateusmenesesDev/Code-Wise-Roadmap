@@ -127,7 +127,11 @@ export function RateBoard({ userId }: RateBoardProps) {
 				</div>
 
 				<div className="flex justify-between">
-					<Button variant="outline" onClick={resetRatings}>
+					<Button
+						variant="outline"
+						onClick={resetRatings}
+						disabled={ratedCount === 0}
+					>
 						Reset Ratings
 					</Button>
 					<Button disabled={ratedCount === 0} onClick={handleGenerateRoadmap}>
