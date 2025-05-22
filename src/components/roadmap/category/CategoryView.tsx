@@ -28,7 +28,6 @@ export function CategoryView({
 				if (!categoryData) return null;
 
 				const color = categoryData?.color;
-				console.log(color);
 
 				// Sort technologies by overall priority
 				const sortedTechs = [...techs].sort((a, b) => {
@@ -44,6 +43,7 @@ export function CategoryView({
 						icon={<categoryData.Icon className={categoryData.iconColor} />}
 						iconColor={categoryData.iconColor}
 						techCount={sortedTechs.length}
+						className="mb-2"
 					>
 						<div className="space-y-4">
 							{sortedTechs.map((tech) => {

@@ -107,7 +107,7 @@ export function RateBoard({ userId }: RateBoardProps) {
 					))}
 				</div>
 
-				<div className="grid grid-cols-1 gap-6">
+				<div className="grid grid-cols-1">
 					{isTechnologiesLoading ? (
 						<TechnologySkeleton />
 					) : (

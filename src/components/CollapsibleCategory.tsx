@@ -13,18 +13,20 @@ type CollapsibleCategoryProps = {
 	icon: React.ReactNode;
 	iconColor: string;
 	techCount: number;
+	className?: string;
 };
 
 export default function CollapsibleCategory({
 	children,
 	title,
 	icon,
-	techCount
+	techCount,
+	className
 }: CollapsibleCategoryProps) {
 	const [open, setOpen] = useState(false);
 
 	return (
-		<Collapsible className="mb-4" open={open} onOpenChange={setOpen}>
+		<Collapsible open={open} onOpenChange={setOpen} className={className}>
 			<CollapsibleTrigger className="flex w-full cursor-pointer items-center justify-between rounded-lg bg-card p-4 text-left transition-colors hover:bg-card/90">
 				<div className="flex items-center gap-3">
 					<div className="flex items-center justify-center rounded-full bg-muted p-2">
