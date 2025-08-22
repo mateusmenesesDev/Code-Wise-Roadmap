@@ -1,2 +1,2 @@
-export * from "./skillRate";
-export * from "./technologies";
+export * from './skillRate';
+export * from './technologies';

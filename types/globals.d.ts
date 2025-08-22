@@ -1,9 +1,9 @@
 export {};
 
 declare global {
-  interface CustomJwtSessionClaims {
-    metadata: {
-      role: string;
-    };
-  }
+	interface CustomJwtSessionClaims {
+		metadata: {
+			role: string;
+		};
+	}
 }

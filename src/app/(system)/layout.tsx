@@ -1,7 +1,7 @@
-import "~/styles/globals.css";
+import '~/styles/globals.css';
 
 export default async function SystemLayout({
-  children,
+	children
 }: Readonly<{ children: React.ReactNode }>) {
-  return <main className="container mx-auto py-12">{children}</main>;
+	return <main className="container mx-auto py-12">{children}</main>;
 }

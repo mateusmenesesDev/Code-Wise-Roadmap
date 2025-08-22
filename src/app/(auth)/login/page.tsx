@@ -1,37 +1,37 @@
-"use client";
+'use client';
 
-import { Button } from "~/components/ui/button";
+import { Button } from '~/components/ui/button';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { useAuth } from "~/hooks/useAuth";
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle
+} from '~/components/ui/card';
+import { useAuth } from '~/hooks/useAuth';
 
 export default function LoginPage() {
-  const { signInWithGithub } = useAuth();
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-center font-bold text-2xl">
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              DevPath Mapper
-            </span>
-          </CardTitle>
-          <CardDescription className="text-center">
-            Sign in to manage your developer roadmap
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-2">
-          <Button variant="outline" onClick={signInWithGithub}>
-            Sign in with Github
-          </Button>
-        </CardContent>
-        <div id="clerk-captcha" />
-      </Card>
-    </div>
-  );
+	const { signInWithGithub } = useAuth();
+	return (
+		<div className="flex min-h-screen items-center justify-center bg-background p-4">
+			<Card className="w-full max-w-md">
+				<CardHeader className="space-y-1">
+					<CardTitle className="text-center font-bold text-2xl">
+						<span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+							DevPath Mapper
+						</span>
+					</CardTitle>
+					<CardDescription className="text-center">
+						Sign in to manage your developer roadmap
+					</CardDescription>
+				</CardHeader>
+				<CardContent className="flex flex-col gap-2">
+					<Button variant="outline" onClick={signInWithGithub}>
+						Sign in with Github
+					</Button>
+				</CardContent>
+				<div id="clerk-captcha" />
+			</Card>
+		</div>
+	);
 }

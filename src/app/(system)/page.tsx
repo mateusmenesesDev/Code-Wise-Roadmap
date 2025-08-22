@@ -1,5 +1,5 @@
-import UserDashboard from "~/components/UserDashboard";
+import UserDashboard from '~/components/UserDashboard';
 
 export default function HomePage() {
-  return <UserDashboard />;
+	return <UserDashboard />;
 }

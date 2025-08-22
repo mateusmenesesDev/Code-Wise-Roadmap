@@ -1,8 +1,8 @@
-import { atom, useAtom } from "jotai";
+import { atom, useAtom } from 'jotai';
 
-const tabAtom = atom("rate");
+const tabAtom = atom('rate');
 export const useTabs = () => {
-  const [activeTab, setActiveTab] = useAtom(tabAtom);
+	const [activeTab, setActiveTab] = useAtom(tabAtom);
 
-  return { activeTab, setActiveTab };
+	return { activeTab, setActiveTab };
 };
