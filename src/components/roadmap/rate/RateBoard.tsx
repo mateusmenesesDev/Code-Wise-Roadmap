@@ -39,10 +39,16 @@ export function RateBoard({ userId }: RateBoardProps) {
 	const ratedCount = userRatings.length;
 	const totalCount = technologies?.length || 0;
 
-	const handleDrop = (tech: string, rating: UserRating['rating']) => {
+	const handleDrop = (
+		tech: string,
+		category: string,
+		rating: UserRating['rating']
+	) => {
 		setUserRatings((prev) => {
-			const filtered = prev.filter((r) => r.technology !== tech);
-			return [...filtered, { technology: tech, rating }];
+			const filtered = prev.filter(
+				(r) => !(r.technology === tech && r.category === category)
+			);
+			return [...filtered, { technology: tech, category, rating }];
 		});
 	};
 

@@ -16,7 +16,10 @@ export function TechnologyGroup({
 	userRatings
 }: TechnologyGroupProps) {
 	const unratedTechs = technologies.filter(
-		(tech) => !userRatings.some((r) => r.technology === tech.name)
+		(tech) =>
+			!userRatings.some(
+				(r) => r.technology === tech.name && r.category === tech.category
+			)
 	);
 
 	if (unratedTechs.length === 0) return null;

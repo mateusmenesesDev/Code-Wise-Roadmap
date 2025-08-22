@@ -3,6 +3,7 @@ import { z } from "zod";
 export const skillRateSchema = z.object({
   id: z.number(),
   technology: z.string(),
+  category: z.string(),
   rating: z.number(),
   userId: z.string(),
   techDetails: z.object({

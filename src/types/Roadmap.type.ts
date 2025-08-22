@@ -1,5 +1,6 @@
 export interface UserRating {
   technology: string;
+  category: string;
   rating: 0 | 0.25 | 0.5 | 0.75 | 1;
 }
 

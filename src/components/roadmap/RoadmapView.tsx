@@ -50,8 +50,6 @@ export function RoadmapView({ userId }: RoadmapViewProps) {
 		'100': []
 	};
 
-	console.log('techByRating', techByRating);
-
 	for (const tech of userRatings.data || []) {
 		const rating = tech.rating;
 
